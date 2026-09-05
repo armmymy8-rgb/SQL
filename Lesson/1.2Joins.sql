@@ -16,4 +16,4 @@ on
     sjd.skill_id = sd.skill_id
 where
     sjd.skill_id is null
-limit 10;
+limit 18;
