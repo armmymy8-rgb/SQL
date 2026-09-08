@@ -1,0 +1,16 @@
+with title_median as (    
+    select 
+        job_title_short,
+        job_work_from_home,
+        cast(median(salary_year_avg) as int) as median_salary_year_avg
+    from job_postings_fact
+    where job_country = 'United States'
+    group by 
+        job_title_short,
+        job_work_from_home
+   
+)
+
+select *
+from title_median
+where job_work_from_home = True;

@@ -1,0 +1,70 @@
+-- Subquery 'Select'
+
+select
+    job_title_short,
+    (
+        select Median(salary_year_avg) 
+        from job_postings_fact
+    ) as median_salary_year_avg
+from job_postings_fact
+limit 20;
+
+
+-- Subquery 'From'
+-- Subquery 'Where, Having'
+select
+    job_title_short,
+    median(salary_year_avg) as median_salary_year_avg,
+    (
+        select median(salary_year_avg)
+        from job_postings_fact
+        where job_work_from_home = True
+    ) as market_remote_median_salary
+from (
+        select 
+            job_title_short,
+            salary_year_avg 
+        from job_postings_fact
+        where job_work_from_home = True
+    )  clean_jobs
+group by job_title_short
+having median(salary_year_avg) > (select
+                                   median(salary_year_avg)
+                                   from job_postings_fact
+                                   where job_work_from_home = True)
+limit 20;
+
+
+-- sebquery exists
+select *
+from range(3) as src(key)
+where not exists(
+    select 1
+    from range(2) as tgt(key)
+    where tgt.key = src.key
+)
+;
+
+
+select *
+from job_posting_fact
+order by job_id
+limit 10;
+
+select *
+from skills_job_dim
+order by job_id
+limit 20;
+
+
+select *
+from job_postings_fact as tgt
+where not exists(
+    select 1
+    from skills_job_dim as src
+    where tgt.job_id = src.job_id
+
+)
+order by job_id
+
+;
