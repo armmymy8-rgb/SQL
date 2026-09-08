@@ -1,0 +1,5 @@
+#Ignore file to 'Add'
+large_file.duckdb
+
+# or
+# *.duckdb
